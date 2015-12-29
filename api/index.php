@@ -1,6 +1,5 @@
 <?php
 include 'conexion.php';
-include 'opciones.php';
 require 'Slim/Slim.php';
 \Slim\Slim::registerAutoloader();
 $app = new \Slim\Slim();
@@ -9,6 +8,7 @@ $app->get('/', function() use($app) {
     $app->response->setStatus(200);
 	session_start();
 	if($_SESSION['id']){
+		echo $_SESSION['id'];
 		session_unset();
 		session_destroy();
 	}

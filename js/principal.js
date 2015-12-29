@@ -6,7 +6,7 @@ function registrarse(){
 				"<p>Usuario<input type='text' name='usuario' id='usr_id'></p>"+
 				"<p>Contraseña<input type='password' name='contrasena' id='pass_id'></p>"+
 				"<p>Nombre<input type='text' name='nombre' id='nom_id'></p>"+
-				"<p>Correo<input type='text' name='correo' id='corr_id'></p>"+
+				"<p>Correo<input type='email' name='correo' id='corr_id'></p>"+
 				"<input type='button' value='Enviar' onclick='nuevoUsr()'>"+
 			"</form>";
 	$('#respuesta').html(reg)
@@ -19,6 +19,7 @@ function nuevoUsr(){
 		data: $('#nuevoUsrId').serialize(),
 		success: function(data){
 			alert('Nuevo usuario registrado ');
+			location.href ='/tareas';
 		}
 	});
 }
@@ -47,7 +48,7 @@ function logout(){
 		data: data,
 		success: function(data){
 			alert('Salió del sistema '+ data);
-			location.reload();
+			location.href ='/tareas';
 		}
 	});
 }
@@ -107,8 +108,8 @@ function tareas(){
 		type: 'GET',
 		data: data,
 		dataType: 'json',
-		success: function(data){ 																	// Cambiar url href
-			$('#respuesta').html('<h2>Tareas</h2><a href="#" onclick="editaTareas()"> Editar </a> | <a href="localhost:81/tareas" onclick="logout()"> Salir </a><table>');
+		success: function(data){
+			$('#respuesta').html('<h2>Tareas</h2><a href="#" onclick="editaTareas()"> Editar </a> | <a href="/tareas" onclick="logout()"> Salir </a><table>');
 			$.each(data, function(){
 				if(this['realizada']=='1'){
 					datosTabla += '<tr><td><input type="checkbox" onclick="editaRealizada('+this['id']+')" checked></td> <td>'+this['texto']+'</td></tr>';
@@ -134,34 +135,5 @@ function editaRealizada(idTarea){
 			//$('#respuesta').html(data);
 			tareas();
 		}
-	});
-}
-
-function editaTexto(idTarea){
-	$.ajax({
-		url: 'api/tareas/editaTexto/'+idTarea,
-		type: 'PUT',
-		data: data,
-		dataType: 'html',
-		success: function(data){
-			//$('#respuesta').html(data);
-			//tareas();
-		}
-	});
-}
-
-function agregaUsuario(){
-	$.ajax({
-		type: 'POST',
-        contentType: 'application/json',
-        url: 'api/registrarse/nuevo',
-        dataType: "json",
-        data: formToJSON(),
-        success: function(data, textStatus, jqXHR){
-            alert('Nuevo usuario registrado');
-        },
-        error: function(jqXHR, textStatus, errorThrown){
-            alert('Error usuario no registrado: ' + textStatus);
-        }
 	});
 }
