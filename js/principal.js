@@ -43,11 +43,11 @@ function login(){
 
 function logout(){
 	$.ajax({
-		url: 'api/',
+		url: 'api/salir',
 		type: 'GET',
 		data: data,
 		success: function(data){
-			alert('Salió del sistema '+ data);
+			alert('Salió del sistema, hasta luego '+ data);
 			location.href ='/tareas';
 		}
 	});
