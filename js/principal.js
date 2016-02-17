@@ -16,7 +16,7 @@ function nuevoUsr(){
 	$.ajax({
 		url: 'api/registrarse/nuevo',
 		type: 'POST',
-		data: $('#nuevoUsrId').serialize(),
+		data: JSON.stringify(jQuery('#nuevoUsrId').serializeArray()),
 		success: function(data){
 			alert('Nuevo usuario registrado ');
 			location.href ='/tareas';
@@ -28,13 +28,14 @@ function login(){
 	$.ajax({
 		url: 'api/login',
 		type: 'POST',
-		data: $('#formId').serialize(),
+		data: JSON.stringify(jQuery('#formId').serializeArray()),
 		success: function(data){
-			if(data=='Error'){
-				alert(data+', usuario no valido');
+			var resp = JSON.parse(data);
+			if(resp[0].error=="true"){
+				alert(resp[0].texto);
 			}
 			else{
-				alert('Ingresó, bienvenido: '+ data);
+				alert('Ingresó, bienvenido: '+ resp[0].nombre);
 				tareas();
 			}
 		}
@@ -57,9 +58,9 @@ function nuevaTarea(){
 	$.ajax({
 		url: 'api/tareas/nuevaTarea',
 		type: 'POST',
-		data: $('#nuevaTareaId').serialize(),
+		data: JSON.stringify(jQuery('#nuevaTareaId').serializeArray()),
 		success: function(data){
-			//$('#respuesta').html(data);
+			//alert(data);
 			tareas();
 		}
 	});
